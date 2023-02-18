@@ -11,29 +11,29 @@ import java.util.List;
 @Service
 public class UserService {
     @Autowired
-    UserRepository userRepository;
+    UserRepository userRepository3;
 
     public User createUser(String username, String password){
         User user = new User(username,password);
-        userRepository.save(user);
+        userRepository3.save(user);
         return user;
     }
 
     public void deleteUser(int userId){
         //Delete other info related to user ?
-        userRepository.deleteById(userId);
+        userRepository3.deleteById(userId);
     }
 
-    public User updateUser(Integer id, String password){
+    public User updateUser(Integer id, String password) throws Exception {
         try {
-            User user = userRepository.findById(id).get();
+            User user = userRepository3.findById(id).get();
             user.setPassword(password);
-            userRepository.save(user);
+            userRepository3.save(user);
             return user;
         }
-        catch (Exception e){
-            //User not found
-            return null;
+        catch (Exception e)
+        {
+            throw new Exception();
         }
     }
 }

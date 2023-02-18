@@ -16,42 +16,39 @@ import java.util.List;
 @Service
 public class BlogService {
     @Autowired
-    BlogRepository blogRepository;
+    BlogRepository blogRepository1;
     @Autowired
-    UserRepository userRepository;
-    @Autowired
-    ImageRepository imageRepository;
+    UserRepository userRepository1;
 
-    public Blog createAndReturnBlog(Integer userId, String title, String content) {
+    public Blog createAndReturnBlog(Integer userId, String title, String content) throws Exception {
         //create a blog at the current time
         //WHAT TO DO IF USER NOT FOUND
-
         try {
-            User user = userRepository.findById(userId).get();
+            User user = userRepository1.findById(userId).get();
             Blog blog = new Blog(title, content, user);
             user.getBlogList().add(blog);
-            userRepository.save(user);
+            userRepository1.save(user);
             return blog;
         }
         catch (Exception e){
-            //User mot found
-            return null;
+            throw new Exception();
         }
     }
 
     public void deleteBlog(int blogId){
         //delete blog and corresponding images
         //UNVERIFIED
-        for(Image i : blogRepository.findById(blogId).get().getImageList())
-        {
-            imageRepository.deleteById(i.getId());
-        }
-        User user = blogRepository.findById(blogId).get().getUser();
-        blogRepository.deleteById(blogId);
-        for(Blog b : user.getBlogList()){
-            if(b.getId()==blogId)
-                user.getBlogList().remove(b);
-        }
-        userRepository.save(user);
+//        for(Image i : blogRepository1.findById(blogId).get().getImageList())
+//        {
+//            imageRepository1.deleteById(i.getId());
+//        }
+//        User user = blogRepository1.findById(blogId).get().getUser();
+//        blogRepository1.deleteById(blogId);
+//        for(Blog b : user.getBlogList()){
+//            if(b.getId()==blogId)
+//                user.getBlogList().remove(b);
+//        }
+//        userRepository1.save(user);
+        blogRepository1.deleteById(blogId);
     }
 }
