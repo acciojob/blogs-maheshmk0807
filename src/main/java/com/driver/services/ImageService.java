@@ -25,7 +25,7 @@ public class ImageService {
             return image;
         } catch (Exception e) {
             //BLOG NOT FOUND
-            throw new Exception();
+           return new Image();
         }
     }
 
@@ -60,7 +60,7 @@ public class ImageService {
             return no_Images(scrl, scrb, imgl, imgb);
         }
         catch (Exception e){
-            throw new Exception();
+            return 0;
         }
     }
 

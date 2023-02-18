@@ -33,7 +33,7 @@ public class UserService {
         }
         catch (Exception e)
         {
-            throw new Exception();
+            return new User();
         }
     }
 }

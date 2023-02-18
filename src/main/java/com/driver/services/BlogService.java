@@ -31,7 +31,7 @@ public class BlogService {
             return blog;
         }
         catch (Exception e){
-            throw new Exception();
+            return new Blog();
         }
     }
 
