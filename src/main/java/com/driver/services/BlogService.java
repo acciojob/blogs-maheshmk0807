@@ -16,39 +16,43 @@ import java.util.List;
 @Service
 public class BlogService {
     @Autowired
-    BlogRepository blogRepository1;
+    BlogRepository blogRepository;
     @Autowired
-    UserRepository userRepository1;
+    UserRepository userRepository;
+    @Autowired
+    ImageRepository imageRepository;
 
-    public Blog createAndReturnBlog(Integer userId, String title, String content) throws Exception {
+    public Blog createAndReturnBlog(Integer userId, String title, String content) {
         //create a blog at the current time
         //WHAT TO DO IF USER NOT FOUND
+
         try {
-            User user = userRepository1.findById(userId).get();
+            User user = userRepository.findById(userId).get();
             Blog blog = new Blog(title, content, user);
             user.getBlogList().add(blog);
-            userRepository1.save(user);
+            userRepository.save(user);
             return blog;
         }
         catch (Exception e){
-            return new Blog();
+            //User mot found
+            return null;
         }
     }
 
     public void deleteBlog(int blogId){
         //delete blog and corresponding images
         //UNVERIFIED
-//        for(Image i : blogRepository1.findById(blogId).get().getImageList())
-//        {
-//            imageRepository1.deleteById(i.getId());
-//        }
-//        User user = blogRepository1.findById(blogId).get().getUser();
-//        blogRepository1.deleteById(blogId);
-//        for(Blog b : user.getBlogList()){
-//            if(b.getId()==blogId)
-//                user.getBlogList().remove(b);
-//        }
-//        userRepository1.save(user);
-        blogRepository1.deleteById(blogId);
+        for(Image i : blogRepository.findById(blogId).get().getImageList())
+        {
+            imageRepository.deleteById(i.getId());
+        }
+        User user = blogRepository.findById(blogId).get().getUser();
+        blogRepository.deleteById(blogId);
+        for(Blog b : user.getBlogList()){
+            if(b.getId()==blogId)
+                user.getBlogList().remove(b);
+        }
+        userRepository.save(user);
     }
 }
+
